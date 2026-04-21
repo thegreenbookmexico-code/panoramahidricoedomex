@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>💧🗺️ Panorama sociohídrico del Estado de México</title>
+  <meta name="description" content="Repositorio cartográfico de The Greenbook con mapas sobre condiciones sociohídricas del Estado de México." />
+  <style>
+    :root{
+      --bg:#f5f7f4;
+      --card:#ffffff;
+      --ink:#1d2a22;
+      --muted:#5d6c63;
+      --line:#d7e0d8;
+      --green-1:#0f5132;
+      --green-2:#1b7f4f;
+      --green-3:#43a86b;
+      --green-4:#e8f4ec;
+      --shadow:0 18px 38px rgba(18,43,28,.12);
+      --radius:28px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(67,168,107,.08), transparent 25%),
+        radial-gradient(circle at bottom right, rgba(15,81,50,.08), transparent 25%),
+        var(--bg);
+      color:var(--ink);
+    }
+
+    .wrap{
+      width:min(1220px, calc(100% - 32px));
+      margin:0 auto;
+    }
+
+    .hero{
+      padding:28px 0 24px;
+    }
+
+    .hero-card{
+      background:rgba(255,255,255,.9);
+      backdrop-filter: blur(8px);
+      border:1px solid rgba(215,224,216,.9);
+      border-radius:30px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      display:grid;
+      grid-template-columns: .9fr 1.1fr;
+      min-height:620px;
+    }
+
+    .hero-copy{
+      padding:38px 34px 34px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      width:max-content;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:var(--green-4);
+      color:var(--green-1);
+      font-size:.92rem;
+      font-weight:700;
+      margin-bottom:16px;
+      border:1px solid #cfe3d4;
+    }
+
+    h1{
+      margin:0 0 14px;
+      line-height:1.03;
+      font-size:clamp(2.4rem, 5vw, 4.2rem);
+      letter-spacing:-.04em;
+      max-width:8.8ch;
+    }
+
+    .lead{
+      margin:0;
+      font-size:1.04rem;
+      line-height:1.78;
+      color:var(--muted);
+      max-width:58ch;
+    }
+
+    .hero-preview{
+      position:relative;
+      border-left:1px solid var(--line);
+      background:#edf3ee;
+      overflow:hidden;
+      min-height:620px;
+    }
+
+    .hero-preview img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .hero-preview::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to top, rgba(14,44,29,.14), rgba(14,44,29,0) 34%);
+      pointer-events:none;
+    }
+
+    .hero-preview-pill{
+      position:absolute;
+      left:18px;
+      bottom:18px;
+      z-index:2;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:rgba(255,255,255,.94);
+      color:var(--green-1);
+      border:1px solid rgba(255,255,255,.96);
+      border-radius:999px;
+      padding:10px 13px;
+      font-size:.84rem;
+      font-weight:800;
+      box-shadow:0 8px 18px rgba(18,43,28,.14);
+      text-decoration:none;
+    }
+
+    .section{
+      padding:8px 0 36px;
+    }
+
+    .section-head{
+      margin-bottom:18px;
+    }
+
+    .section-head h2{
+      margin:0;
+      font-size:1.5rem;
+      letter-spacing:-.02em;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:22px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .body{
+      padding:24px 22px 24px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      height:100%;
+    }
+
+    .chip-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:2px;
+    }
+
+    .chip{
+      background:#f3f7f4;
+      color:#234231;
+      border:1px solid #e1e8e3;
+      border-radius:999px;
+      padding:7px 10px;
+      font-size:.8rem;
+      font-weight:800;
+    }
+
+    .body h3{
+      margin:0;
+      font-size:1.16rem;
+      line-height:1.28;
+      letter-spacing:-.02em;
+    }
+
+    .body p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.72;
+      font-size:.98rem;
+    }
+
+    .meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:2px;
+    }
+
+    .meta span{
+      background:#f8faf8;
+      border:1px solid #e7ede8;
+      color:#365543;
+      border-radius:999px;
+      padding:7px 10px;
+      font-size:.78rem;
+      font-weight:700;
+    }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:auto;
+      padding-top:6px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:13px 18px;
+      border-radius:14px;
+      text-decoration:none;
+      font-weight:800;
+      border:1px solid transparent;
+      transition:.2s ease;
+    }
+
+    .btn-primary{
+      background:var(--green-1);
+      color:#fff;
+      box-shadow:0 10px 22px rgba(15,81,50,.18);
+    }
+
+    .btn-primary:hover{transform:translateY(-1px); background:#0c4329}
+
+    footer{
+      padding:0 0 28px;
+    }
+
+    .footer-card{
+      background: linear-gradient(90deg, var(--green-1), var(--green-2), var(--green-3));
+      color:#fff;
+      border-radius:20px;
+      box-shadow:var(--shadow);
+      padding:16px 18px;
+      text-align:center;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+
+    @media (max-width: 1080px){
+      .hero-card{
+        grid-template-columns:1fr;
+        min-height:auto;
+      }
+      .hero-preview{
+        min-height:420px;
+        border-left:none;
+        border-top:1px solid var(--line);
+      }
+    }
+
+    @media (max-width: 860px){
+      .grid{grid-template-columns:1fr}
+    }
+
+    @media (max-width: 680px){
+      .wrap{width:min(100% - 20px, 1220px)}
+      .hero{padding-top:20px}
+      .hero-copy{padding:26px 22px 24px}
+      .hero-preview{min-height:320px}
+      .actions{flex-direction:column}
+      .btn{justify-content:center}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-card">
+        <div class="hero-copy">
+          <div class="eyebrow">Mapa integrado</div>
+          <h1>💧🗺️ Panorama sociohídrico del Estado de México</h1>
+          <p class="lead">
+            Este repositorio reúne mapas para explorar, en clave territorial, la relación entre condiciones sociales e hídricas
+            en el Estado de México. Aquí se puede navegar un visor integrado con variables sociodemográficas e hidrológicas,
+            así como un mapa específico sobre acceso al agua y marginación en colonias.
+          </p>
+        </div>
+
+        <div class="hero-preview">
+          <img src="./preview.png" alt="Vista previa del panorama sociohídrico del Estado de México" />
+          <a class="hero-preview-pill" href="./mapa_integrado_edomex_socio_hidro.html" target="_blank" rel="noopener noreferrer">Ver mapa completo ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Mapas disponibles</h2>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="body">
+            <div class="chip-row">
+              <span class="chip">Mapa integral</span>
+              <span class="chip">Estado de México</span>
+            </div>
+            <h3>💧🗺️ Panorama sociohídrico del Estado de México</h3>
+            <p>
+              Visor interactivo que integra porcentaje de ocupantes en viviendas particulares habitadas sin agua entubada,
+              grado de marginación, población total, precipitación pluvial anual, agua renovable per cápita y calidad del
+              agua subterránea.
+            </p>
+            <div class="meta">
+              <span>CONAPO 2020</span>
+              <span>CONAGUA 2021–2024</span>
+              <span>Visor interactivo</span>
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="./mapa_integrado_edomex_socio_hidro.html" target="_blank" rel="noopener noreferrer">Abrir mapa ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="body">
+            <div class="chip-row">
+              <span class="chip">Mapa de colonias</span>
+              <span class="chip">Acceso al agua</span>
+            </div>
+            <h3>🏘️ Porcentaje de ocupantes en viviendas particulares habitadas sin agua entubada (OVSAE) y grado de marginación (GM)</h3>
+            <p>
+              Mapa temático para explorar, a nivel de colonias, la distribución territorial del porcentaje de ocupantes en
+              viviendas particulares habitadas sin agua entubada (OVSAE) y del grado de marginación (GM).
+            </p>
+            <div class="meta">
+              <span>Colonias</span>
+              <span>OVSAE</span>
+              <span>GM</span>
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="./OVSAE_GM_edomex_final.html" target="_blank" rel="noopener noreferrer">Abrir mapa ↗</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <div class="footer-card">Hecho por The Greenbook 💚</div>
+  </footer>
+</body>
+</html>
